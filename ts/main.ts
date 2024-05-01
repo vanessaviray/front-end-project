@@ -19,7 +19,6 @@ if (!$searchInput) throw new Error('the $searchInput query failed.');
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 
 $marketmonLogo.addEventListener('click', () => {
-  console.log('hello');
   viewSwap('welcome-page');
 });
 
@@ -57,8 +56,29 @@ async function fetchCards(searchCriteria: unknown): Promise<void> {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const data = await response.json();
-    console.log('Pokemon Data: ', data);
+    const cardObjects = await response.json();
+    const cardObjectsData = cardObjects.data;
+    const cardInfoArray = [];
+
+    for (let i = 0; i < cardObjectsData.length; i++) {
+      const cardInfo: any = {};
+
+      const smallImage = cardObjects.data[i].images.small;
+      cardInfo.smallImage = smallImage;
+
+      const cardName = cardObjects.data[i].name;
+      cardInfo.cardName = cardName;
+
+      const setName = cardObjects.data[i].set.name;
+      cardInfo.setName = setName;
+
+      const cardNumber = cardObjects.data[i].number;
+      cardInfo.cardNumber = cardNumber;
+
+      cardInfoArray.push(cardInfo);
+    }
+    console.log('Pokemon Data: ', cardObjects);
+    console.log(cardInfoArray);
   } catch (error) {
     console.log('Fetch function failed: ', error);
   }
