@@ -8,11 +8,13 @@ const $searchResults = document.querySelector(
 const $marketmonLogo = document.querySelector(
   '#marketmon-logo',
 ) as HTMLImageElement;
+const $searchInput = document.querySelector('#search-input') as HTMLFormElement;
 
 if (!$form) throw new Error('the $from query failed.');
-if (!$welcomePage) throw new Error(`the $welcomePage query failed`);
-if (!$searchResults) throw new Error(`the $searchResults query failed`);
-if (!$marketmonLogo) throw new Error(`the $marketmonLogo query failed`);
+if (!$welcomePage) throw new Error('the $welcomePage query failed');
+if (!$searchResults) throw new Error('the $searchResults query failed');
+if (!$marketmonLogo) throw new Error('the $marketmonLogo query failed');
+if (!$searchInput) throw new Error('the $searchInput query failed.');
 
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 
@@ -26,6 +28,8 @@ $marketmonLogo.addEventListener('click', () => {
 $form.addEventListener('submit', (event: Event): void => {
   event.preventDefault();
   viewSwap('search-results');
+  const nameOfPokemonSearched = $searchInput.value;
+  fetchCards(nameOfPokemonSearched);
 });
 
 // FUNCTION: to swap views
@@ -45,7 +49,7 @@ function viewSwap(view: string): void {
 
 // FUNCTION: to fetch information from api
 
-async function fetchCards(searchCriteria: string): Promise<void> {
+async function fetchCards(searchCriteria: unknown): Promise<void> {
   try {
     const response = await fetch(
       `https://api.pokemontcg.io/v2/cards?q=name:${searchCriteria}`,
@@ -59,5 +63,3 @@ async function fetchCards(searchCriteria: string): Promise<void> {
     console.log('Fetch function failed: ', error);
   }
 }
-
-fetchCards('eevee');
