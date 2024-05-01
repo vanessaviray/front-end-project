@@ -20,48 +20,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer" />
   </head>
-  <!-- <body>
-    <header>
-      <div id="navbar">
-        <div class="container">
-          <div id="logo-and-my-collection-button">
-            <a id="logo"><img src="images/marketmon-logo.png" alt="MarketMon Logo" id="marketmon-logo"></a>
-            <button id="my-collection">My Collection</button>
-          </div>
-          <div class="search">
-            <i class="fa-solid fa-magnifying-glass" id="magnifying-glass"></i>
-            <input type="search" id="search-bar" placeholder="Search for card by name">
-          </div>
-        </div>
-      </div>
-    </header>
-    <main>
-      <div class="container">
-        <div class="welcome-page-contents">
-          <img src="images/welcome-to-marketmon.png" alt="Marketmon Welcome Image" id="marketmon-welcome-image">
-          <div id="gray-divider"></div>
-          <h3 id="find-out-value">Find out the value of your Pok&#233;mon card collection!</h3>
-          <div class="steps">
-            <p class="step-circle">1</p>
-            <p>Search for Pok&#233;mon card by name</p>
-          </div>
-          <div class="steps">
-            <p class="step-circle">2</p>
-            <p>Add cards to your collection</p>
-          </div>
-          <div class="steps">
-            <p class="step-circle">3</p>
-            <p>See the total market value!</p>
-          </div>
-        </div>
-        <div class="welcome-page-contents" id="three-cards-container">
-          <img src="images/3-cards.png" alt="stack of three cards" id="three-cards">
-        </div>
-      </div>
-    </main>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-</body> -->
   <body>
     <header>
       <div id="navbar">
@@ -77,16 +35,18 @@
           </div>
           <div class="search">
             <i class="fa-solid fa-magnifying-glass" id="magnifying-glass"></i>
-            <input
-              type="search"
-              id="search-input"
-              placeholder="Search for card by name" />
+            <form id="form">
+              <input
+                type="search"
+                id="search-input"
+                placeholder="Search for card by name" />
+            </form>
           </div>
         </div>
       </div>
     </header>
     <main>
-      <div class="row container" id="welcome-page">
+      <div class="row container" id="welcome-page" data-view="welcome-page">
         <div class="welcome-page-contents" id="welcome-page-text">
           <img
             src="images/welcome-to-marketmon.png"
@@ -114,6 +74,11 @@
             src="images/3-cards.png"
             alt="stack of three cards"
             id="three-cards" />
+        </div>
+      </div>
+      <div data-view="search-results" id="search-results" class="hidden">
+        <div class="row container" id="page-heading-row">
+          <h2 class="page-heading">Search Results</h2>
         </div>
       </div>
     </main>
