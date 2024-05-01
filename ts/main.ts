@@ -42,3 +42,22 @@ function viewSwap(view: string): void {
     $searchResults.className = 'show';
   }
 }
+
+// FUNCTION: to fetch information from api
+
+async function fetchCards(searchCriteria: string): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://api.pokemontcg.io/v2/cards?q=name:${searchCriteria}`,
+    );
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log('Pokemon Data: ', data);
+  } catch (error) {
+    console.log('Fetch function failed: ', error);
+  }
+}
+
+fetchCards('eevee');
