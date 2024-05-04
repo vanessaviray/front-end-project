@@ -66,7 +66,6 @@ async function fetchCards(searchCriteria: unknown): Promise<void> {
       throw new Error('Network response was not ok');
     }
     const cardObjects = await response.json();
-    console.log('Pokemon Data: ', cardObjects);
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
@@ -146,7 +145,7 @@ function renderCards(cardObjects: any): any {
 
     cardInfoArray.push(cardInfo);
 
-    // DOM TREE: for search results
+    // DOM TREE: to render search results
 
     const $cardContainer = document.createElement('div');
     $cardContainer.setAttribute('class', 'card-container column-full');
@@ -216,7 +215,7 @@ function displayNoMatches(): void {
   $pokeballNoMatches.appendChild($noMatches);
 }
 
-// FUNCTION: to format market value
+// FUNCTION: to format the display of the market value
 
 function formatMarketPrice(price: any): string {
   if (typeof price === 'number') {

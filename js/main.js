@@ -50,7 +50,6 @@ async function fetchCards(searchCriteria) {
       throw new Error('Network response was not ok');
     }
     const cardObjects = await response.json();
-    console.log('Pokemon Data: ', cardObjects);
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
@@ -121,7 +120,7 @@ function renderCards(cardObjects) {
       }
     }
     cardInfoArray.push(cardInfo);
-    // DOM TREE: for search results
+    // DOM TREE: to render search results
     const $cardContainer = document.createElement('div');
     $cardContainer.setAttribute('class', 'card-container column-full');
     $cardContainerRow.appendChild($cardContainer);
@@ -176,7 +175,7 @@ function displayNoMatches() {
   $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee").`;
   $pokeballNoMatches.appendChild($noMatches);
 }
-// FUNCTION: to format market value
+// FUNCTION: to format the display of the market value
 function formatMarketPrice(price) {
   if (typeof price === 'number') {
     return `$${price.toFixed(2)}`;
