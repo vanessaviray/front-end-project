@@ -22,7 +22,11 @@ $form.addEventListener('submit', (event) => {
   viewSwap('search-results');
   $cardContainerRow.innerHTML = '';
   const nameOfPokemonSearched = $searchInput.value;
-  fetchCards(nameOfPokemonSearched);
+  if (nameOfPokemonSearched === '') {
+    displayNoMatches();
+  } else {
+    fetchCards(nameOfPokemonSearched);
+  }
 });
 // FUNCTION: to swap views
 function viewSwap(view) {
@@ -169,7 +173,7 @@ function displayNoMatches() {
   $pokeballNoMatches.appendChild($pokeballImage);
   const $noMatches = document.createElement('p');
   $noMatches.setAttribute('id', 'no-matching-searches');
-  $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee")`;
+  $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee").`;
   $pokeballNoMatches.appendChild($noMatches);
 }
 // FUNCTION: to format market value

@@ -12,6 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 #marketmon-logo {
@@ -30,17 +31,21 @@
   width: 144px;
   height: 42px;
   font-size: 16px;
+  font-weight: 600;
 }
 
 .search {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  margin-top: 20px;
+  order: 1;
+  width: 100%;
   background-color: #fafafa;
   border-style: solid;
   border-color: #e5e5e5;
   border-radius: 10px;
   border-width: 1px;
+  margin-top: 16px;
 }
 
 #magnifying-glass {
@@ -141,7 +146,7 @@
   border-color: #e5e5e5;
   border-radius: 10px;
   padding: 0.5rem;
-  max-width: 47.15%;
+  max-width: 47%;
   margin-bottom: 20px;
 }
 
@@ -215,9 +220,53 @@
   cursor: pointer;
 }
 
+#pokeball-no-matches {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 70px;
+}
+
+#yellow-pokeball-image {
+  max-width: 70px;
+  margin: 24px;
+}
+
+#no-matching-searches {
+  text-align: center;
+  line-height: 1.65rem;
+  max-width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-size: 18px;
+  font-weight: 300;
+  color: #4f4f4f;
+}
+
 /* Media Queries */
 
 @media screen and (width >=768px) {
+  .search {
+    align-items: center;
+    order: 0;
+    margin-top: 0;
+  }
+
+  #logo-and-my-collection-button {
+    flex-wrap: nowrap;
+  }
+
+  #logo {
+    margin-right: 20px;
+  }
+
+  #my-collection {
+    width: 200px;
+    margin-left: 16px;
+  }
+
   #welcome-page {
     display: flex;
     flex-direction: row-reverse;

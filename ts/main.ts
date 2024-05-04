@@ -33,7 +33,11 @@ $form.addEventListener('submit', (event: Event): void => {
   viewSwap('search-results');
   $cardContainerRow.innerHTML = '';
   const nameOfPokemonSearched = $searchInput.value;
-  fetchCards(nameOfPokemonSearched);
+  if (nameOfPokemonSearched === '') {
+    displayNoMatches();
+  } else {
+    fetchCards(nameOfPokemonSearched);
+  }
 });
 
 // FUNCTION: to swap views
@@ -208,7 +212,7 @@ function displayNoMatches(): void {
 
   const $noMatches = document.createElement('p');
   $noMatches.setAttribute('id', 'no-matching-searches');
-  $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee")`;
+  $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee").`;
   $pokeballNoMatches.appendChild($noMatches);
 }
 
