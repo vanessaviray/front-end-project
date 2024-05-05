@@ -1,20 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
-  <link rel="icon" href="images/favicon.ico">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <header>
-  </header>
-  <main>
-  </main>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX Project</title>
+    <link rel="icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div class="container">
+          <div class="logo-and-my-collection-button">
+            <a class="logo"
+              ><img
+                src="images/marketmon-logo.png"
+                alt="MarketMon Logo"
+                class="marketmon-logo"
+            /></a>
+            <div class="search">
+              <i class="fa-solid fa-magnifying-glass magnifying-glass"></i>
+              <form class="form">
+                <input
+                  type="search"
+                  class="search-input"
+                  placeholder="Search for card by name" />
+              </form>
+            </div>
+            <button class="my-collection">My Collection</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="row container welcome-page" data-view="welcome-page">
+        <div class="welcome-page-contents">
+          <img
+            src="images/welcome-to-marketmon.png"
+            alt="Marketmon Welcome Image"
+            class="marketmon-welcome-image" />
+          <div class="gray-divider"></div>
+          <h3 class="find-out-value">
+            Find out the value of your Pok&#233;mon card collection!
+          </h3>
+          <div class="steps">
+            <p class="step-circle">1</p>
+            <p>Search for Pok&#233;mon card by name</p>
+          </div>
+          <div class="steps">
+            <p class="step-circle">2</p>
+            <p>Add cards to your collection</p>
+          </div>
+          <div class="steps">
+            <p class="step-circle">3</p>
+            <p>See the market value of your collection</p>
+          </div>
+        </div>
+        <div class="three-cards-container">
+          <img
+            src="images/3-cards.png"
+            alt="stack of three cards"
+            class="three-cards" />
+        </div>
+      </div>
+      <div data-view="search-results" id="search-results" class="hidden">
+        <div class="row container page-heading-row">
+          <h2 class="page-heading">Search Results</h2>
+          <div class="row card-container-row"></div>
+        </div>
+      </div>
+    </main>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>

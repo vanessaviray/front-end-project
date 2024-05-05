@@ -1,0 +1,334 @@
+/* navbar */
+
+.navbar {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: solid #e5e5e5;
+  background-color: white;
+}
+
+.logo-and-my-collection-button {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.marketmon-logo {
+  width: 135px;
+}
+
+.marketmon-logo:hover {
+  cursor: pointer;
+}
+
+.my-collection {
+  background-color: #ffc700;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 144px;
+  height: 42px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  order: 1;
+  width: 100%;
+  background-color: #fafafa;
+  border-style: solid;
+  border-color: #e5e5e5;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-top: 16px;
+}
+
+.magnifying-glass {
+  color: #4f4f4f;
+  margin-left: 10px;
+  margin-right: 8px;
+}
+
+.form {
+  width: 100%;
+}
+
+.search-input {
+  background-color: #fafafa;
+  border-style: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 40px;
+}
+
+.search-input::placeholder {
+  color: #c4c4c4;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+/* Welcome Page */
+
+.marketmon-welcome-image {
+  width: 265px;
+  margin-top: 30px;
+}
+
+.gray-divider {
+  width: 100px;
+  height: 2px;
+  background-color: #e5e5e5;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
+.find-out-value {
+  color: #4f4f4f;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.step-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: #ffc700;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+  min-width: 30px;
+  height: 30px;
+  margin-right: 8px;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #777;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.three-cards-container {
+  display: flex;
+  justify-content: center;
+}
+
+.three-cards {
+  width: 345px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* Search Results and My Collection Pages */
+
+.page-heading {
+  font-weight: 800;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border-style: solid;
+  border-color: #e5e5e5;
+  border-radius: 10px;
+  padding: 0.5rem;
+  max-width: 47%;
+  margin-bottom: 20px;
+}
+
+.card-container > img {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.card-name-search-results {
+  margin-top: 10px;
+  margin-bottom: 18px;
+}
+
+.set-name-search-results {
+  font-size: 14px;
+  font-weight: 600;
+  color: #999;
+  position: relative;
+  bottom: 8px;
+}
+
+.card-number-search-results {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f4f4f;
+  position: relative;
+  bottom: 8px;
+}
+
+.price-and-button-search-results {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-type-search-results {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  position: relative;
+  top: 5px;
+}
+
+.market-price-search-results {
+  font-weight: 700;
+}
+
+.add-button-search-results {
+  width: 36px;
+  height: 36px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #e5e5e5;
+  border-radius: 50%;
+  background-color: white;
+  font-weight: 300;
+  font-size: 26px;
+}
+
+.add-button-search-results:hover {
+  cursor: pointer;
+  background-color: #36a0ed;
+  color: white;
+  border-style: none;
+}
+
+.card-container-row {
+  gap: 20px;
+}
+
+.card-container:hover {
+  cursor: pointer;
+}
+
+.pokeball-no-matches {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 70px;
+}
+
+.yellow-pokeball-image {
+  max-width: 70px;
+  margin: 24px;
+}
+
+.no-matching-searches {
+  text-align: center;
+  line-height: 1.65rem;
+  max-width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-size: 18px;
+  font-weight: 300;
+  color: #4f4f4f;
+}
+
+/* Media Queries */
+
+@media screen and (width >=768px) {
+  .search {
+    align-items: center;
+    order: 0;
+    margin-top: 0;
+  }
+
+  .logo-and-my-collection-button {
+    flex-wrap: nowrap;
+  }
+
+  .logo {
+    margin-right: 20px;
+  }
+
+  .my-collection {
+    width: 200px;
+    margin-left: 16px;
+  }
+
+  .welcome-page {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 100px;
+  }
+
+  .welcome-page-contents {
+    width: 460px;
+  }
+
+  .marketmon-welcome-image {
+    width: 410px;
+    margin-bottom: 10px;
+  }
+
+  .find-out-value {
+    font-size: 24px;
+    line-height: 2rem;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 400px;
+  }
+
+  .steps {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  .step-circle {
+    width: 35px;
+    height: 35px;
+    margin-right: 12px;
+  }
+
+  .three-cards {
+    position: relative;
+    top: 28px;
+    width: 325px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .three-cards-container {
+    justify-content: start;
+  }
+
+  .page-heading-row {
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .card-container-row {
+    width: 100%;
+  }
+
+  .card-container {
+    max-width: 23.25%;
+  }
+
+  .card-container > img {
+    max-width: 100%;
+  }
+}

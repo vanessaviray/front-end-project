@@ -1,0 +1,41 @@
+.hidden {
+  display: none !important;
+}
+
+p,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #f3f5f6;
+}
+
+.container {
+  max-width: 575px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column-full,
+.column-half {
+  width: 100%;
+}
+
+@media screen and (width >= 768px) {
+  .container {
+    max-width: 900px;
+  }
+
+  .column-half {
+    width: 50%;
+  }
+}

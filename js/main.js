@@ -1,35 +1,24 @@
+'use strict';
 // QUERIES
-
-const $form = document.querySelector('form') as HTMLFormElement;
-const $welcomePage = document.querySelector('.welcome-page') as HTMLDivElement;
-const $searchResults = document.querySelector(
-  '#search-results',
-) as HTMLDivElement;
-const $marketmonLogo = document.querySelector(
-  '.marketmon-logo',
-) as HTMLImageElement;
-const $searchInput = document.querySelector('.search-input') as HTMLFormElement;
-const $cardContainerRow = document.querySelector(
-  '.card-container-row',
-) as HTMLDivElement;
-
+const $form = document.querySelector('form');
+const $welcomePage = document.querySelector('.welcome-page');
+const $searchResults = document.querySelector('#search-results');
+const $marketmonLogo = document.querySelector('.marketmon-logo');
+const $searchInput = document.querySelector('.search-input');
+const $cardContainerRow = document.querySelector('.card-container-row');
 if (!$form) throw new Error('the $from query failed.');
 if (!$welcomePage) throw new Error('the $welcomePage query failed');
 if (!$searchResults) throw new Error('the $searchResults query failed');
 if (!$marketmonLogo) throw new Error('the $marketmonLogo query failed');
 if (!$searchInput) throw new Error('the $searchInput query failed.');
 if (!$cardContainerRow) throw new Error('the $cardContainerRow query failed.');
-
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
-
 $marketmonLogo.addEventListener('click', () => {
   viewSwap('welcome-page');
   $searchInput.value = '';
 });
-
 // EVENT LISTENER: to listen for when a search is submitted
-
-$form.addEventListener('submit', (event: Event): void => {
+$form.addEventListener('submit', (event) => {
   event.preventDefault();
   viewSwap('search-results');
   $cardContainerRow.innerHTML = '';
@@ -40,13 +29,10 @@ $form.addEventListener('submit', (event: Event): void => {
     fetchCards(nameOfPokemonSearched);
   }
 });
-
 // FUNCTION: to swap views
-
-function viewSwap(view: string): void {
+function viewSwap(view) {
   const valueOfView = view;
   data.view = valueOfView;
-
   if (view === 'welcome-page') {
     $welcomePage.className = 'row container welcome-page show';
     $searchResults.className = 'hidden';
@@ -55,10 +41,8 @@ function viewSwap(view: string): void {
     $searchResults.className = 'show';
   }
 }
-
 // FUNCTION: to fetch information from api
-
-async function fetchCards(searchCriteria: unknown): Promise<void> {
+async function fetchCards(searchCriteria) {
   try {
     const response = await fetch(
       `https://api.pokemontcg.io/v2/cards?q=name:${searchCriteria}`,
@@ -70,40 +54,26 @@ async function fetchCards(searchCriteria: unknown): Promise<void> {
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
+      console.log(cardObjects);
       renderCards(cardObjects);
     }
   } catch (error) {
     console.log('Fetch function failed: ', error);
   }
 }
-
 // FUNCTION: to render cards for search result
-
-function renderCards(cardObjects: any): any {
+function renderCards(cardObjects) {
   // created an array of objects that each store the information of a single card
-
-  interface CardInfo {
-    smallImage: string;
-    cardName: string;
-    setName: string;
-    cardNumber: string;
-    priceType?: string;
-    marketPrice?: string;
-  }
-
-  const cardInfoArray: CardInfo[] = [];
+  const cardInfoArray = [];
   const cardObjectsData = cardObjects.data;
-
   for (let i = 0; i < cardObjectsData.length; i++) {
-    const cardInfo: CardInfo = {
+    const cardInfo = {
       smallImage: cardObjects.data[i].images.small,
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
       cardNumber: cardObjects.data[i].number,
     };
-
     // access the price type data by order of rarity (starting with the most common)
-
     if (
       cardObjects.data[i].tcgplayer !== undefined &&
       cardObjects.data[i].tcgplayer.prices !== undefined
@@ -157,85 +127,67 @@ function renderCards(cardObjects: any): any {
       cardInfo.priceType = 'Market Value';
       cardInfo.marketPrice = 'Not Available';
     }
-
     cardInfoArray.push(cardInfo);
-
     // DOM TREE: to render search results
-
     const $cardContainer = document.createElement('div');
     $cardContainer.setAttribute('class', 'card-container column-full');
     $cardContainerRow.appendChild($cardContainer);
-
     const $imageElement = document.createElement('img');
     $imageElement.setAttribute('src', `${cardInfo.smallImage}`);
     $imageElement.setAttribute('alt', 'pokemon card');
     $cardContainer.appendChild($imageElement);
-
     const $cardNameH4Element = document.createElement('h4');
     $cardNameH4Element.setAttribute('class', 'card-name-search-results');
     $cardNameH4Element.textContent = cardInfo.cardName;
     $cardContainer.appendChild($cardNameH4Element);
-
     const $setNamePElement = document.createElement('p');
     $setNamePElement.setAttribute('class', 'set-name-search-results');
     $setNamePElement.textContent = cardInfo.setName;
     $cardContainer.appendChild($setNamePElement);
-
     const $cardNumberPElement = document.createElement('p');
     $cardNumberPElement.setAttribute('class', 'card-number-search-results');
     $cardNumberPElement.textContent = cardInfo.cardNumber;
     $cardContainer.appendChild($cardNumberPElement);
-
     const $priceType = document.createElement('p');
     $priceType.setAttribute('class', 'price-type-search-results');
     $priceType.textContent = cardInfo.priceType;
     $cardContainer.appendChild($priceType);
-
     const $priceAndButton = document.createElement('div');
     $priceAndButton.setAttribute(
       'class',
       'row price-and-button-search-results',
     );
     $cardContainer.appendChild($priceAndButton);
-
     const $marketPrice = document.createElement('p');
     $marketPrice.setAttribute('class', 'market-price-search-results');
     $marketPrice.textContent = cardInfo.marketPrice;
     $priceAndButton.appendChild($marketPrice);
-
     const $addButton = document.createElement('button');
     $addButton.setAttribute('class', 'add-button-search-results');
     $addButton.textContent = '+';
     $priceAndButton.appendChild($addButton);
   }
-
   if (cardInfoArray.length === 0) {
     displayNoMatches();
   }
 }
-
 // FUNCTION AND DOM TREE: to show when there are no results
-
-function displayNoMatches(): void {
+function displayNoMatches() {
   const $pokeballNoMatches = document.createElement('div');
   $pokeballNoMatches.setAttribute('class', 'pokeball-no-matches');
   $cardContainerRow.appendChild($pokeballNoMatches);
-
   const $pokeballImage = document.createElement('img');
   $pokeballImage.setAttribute('src', 'images/pokeball.png');
   $pokeballImage.setAttribute('alt', 'yellow pokeball');
   $pokeballImage.setAttribute('class', 'yellow-pokeball-image');
   $pokeballNoMatches.appendChild($pokeballImage);
-
   const $noMatches = document.createElement('p');
   $noMatches.setAttribute('class', 'no-matching-searches');
   $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee").`;
   $pokeballNoMatches.appendChild($noMatches);
 }
-
 // FUNCTION: to format the display of the market value
-
-function formatMarketPrice(price: any): string {
+function formatMarketPrice(price) {
   if (typeof price === 'number') {
     return `$${price.toFixed(2)}`;
   } else {

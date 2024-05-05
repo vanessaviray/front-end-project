@@ -1,11 +1,6 @@
+'use strict';
 /* exported data */
-
-interface Data {
-  view: string;
-}
-
-const data: Data = {
+const data = {
   view: 'welcome-page',
 };
-
 console.log(data);
