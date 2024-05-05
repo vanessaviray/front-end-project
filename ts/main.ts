@@ -94,8 +94,8 @@ function renderCards(cardObjects: any): any {
 
     // access the price type data by order of rarity (starting with the most common)
 
-    let marketPrice: any = '';
-    let priceType = '';
+    let marketPrice: string = '';
+    let priceType: string = '';
 
     if (
       cardObjects.data[i].tcgplayer !== undefined &&
@@ -153,6 +153,7 @@ function renderCards(cardObjects: any): any {
 
     const $imageElement = document.createElement('img');
     $imageElement.setAttribute('src', `${cardInfo.smallImage}`);
+    $imageElement.setAttribute('alt', 'pokemon card');
     $cardContainer.appendChild($imageElement);
 
     const $cardNameH4Element = document.createElement('h4');
