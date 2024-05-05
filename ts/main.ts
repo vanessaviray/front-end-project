@@ -92,19 +92,22 @@ async function fetchCards(searchCriteria: unknown): Promise<void> {
   }
 }
 
+// INTERFACE: for data of individual cards
+
+interface CardInfo {
+  smallImage: string;
+  cardName: string;
+  setName: string;
+  cardNumber: string;
+  priceType?: string;
+  marketPrice?: string;
+  cardId?: number;
+}
+
 // FUNCTION: to render cards for search result
 
 function renderCards(cardObjects: any): any {
   // created an array of objects that each store the information of a single card
-
-  interface CardInfo {
-    smallImage: string;
-    cardName: string;
-    setName: string;
-    cardNumber: string;
-    priceType?: string;
-    marketPrice?: string;
-  }
 
   const cardInfoArray: CardInfo[] = [];
   const cardObjectsData = cardObjects.data;
@@ -227,6 +230,9 @@ function renderCards(cardObjects: any): any {
 
     $addButton.addEventListener('click', () => {
       alert('Card Added Successfully', 1000);
+      cardInfo.cardId = data.nextCardId;
+      data.cards.unshift(cardInfo);
+      data.nextCardId++;
     });
   }
 

@@ -179,6 +179,9 @@ function renderCards(cardObjects) {
     // EVENT LISTENER: to listen for when the add button is clicked
     $addButton.addEventListener('click', () => {
       alert('Card Added Successfully', 1000);
+      cardInfo.cardId = data.nextCardId;
+      data.cards.unshift(cardInfo);
+      data.nextCardId++;
     });
   }
   if (cardInfoArray.length === 0) {
