@@ -222,6 +222,12 @@ function renderCards(cardObjects: any): any {
     $addButton.setAttribute('class', 'add-button-search-results');
     $addButton.textContent = '+';
     $priceAndButton.appendChild($addButton);
+
+    // EVENT LISTENER: to listen for when the add button is clicked
+
+    $addButton.addEventListener('click', () => {
+      alert('Card Added Successfully', 1000);
+    });
   }
 
   if (cardInfoArray.length === 0) {
@@ -250,7 +256,7 @@ function displayNoMatches(): void {
 
 // FUNCTION: to format the display of the market value
 
-function formatMarketPrice(price: any): string {
+function formatMarketPrice(price: unknown): string {
   if (typeof price === 'number') {
     return `$${price.toFixed(2)}`;
   } else {
@@ -264,3 +270,24 @@ $myCollectionButton.addEventListener('click', () => {
   viewSwap('my-collection');
   $searchInput.value = '';
 });
+
+// FUNCTION: to show alert for adding or deleting cards to collection
+
+function alert(message: string, duration: number): void {
+  const $alert = document.createElement('div');
+  $alert.setAttribute('class', 'row alert');
+  document.body.appendChild($alert);
+
+  const $checkMark = document.createElement('i');
+  $checkMark.setAttribute('class', 'fa-solid fa-check');
+  $alert.appendChild($checkMark);
+
+  const $alertMessage = document.createElement('p');
+  $alertMessage.setAttribute('class', 'alert-message');
+  $alertMessage.textContent = message;
+  $alert.appendChild($alertMessage);
+
+  setTimeout(() => {
+    document.body.removeChild($alert);
+  }, duration);
+}

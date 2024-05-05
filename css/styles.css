@@ -208,6 +208,11 @@
   border-style: none;
 }
 
+.add-button-search-results:active {
+  background-color: #2b80be;
+  color: white;
+}
+
 .card-container-row {
   gap: 20px;
 }
@@ -235,6 +240,49 @@
   font-size: 18px;
   font-weight: 300;
   color: #4f4f4f;
+}
+
+/* .alert-message {
+  font-size: 14px;
+  font-weight: 600;
+  width: 70%;
+  text-align: center;
+  background-color: #E3F2FD;
+  color: #36A0ED;
+  padding: 10px 20px;
+  border-radius: 10px;
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+} */
+
+.alert {
+  flex-wrap: nowrap;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  gap: 8px;
+  background-color: #e3f2fd;
+  color: #36a0ed;
+  padding: 10px 20px;
+  border-radius: 10px;
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+}
+
+.fa-check {
+  background-color: #36a0ed;
+  color: white;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.alert-message {
+  text-wrap: nowrap;
 }
 
 .marketmon-logo:hover,

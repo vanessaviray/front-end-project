@@ -176,6 +176,10 @@ function renderCards(cardObjects) {
     $addButton.setAttribute('class', 'add-button-search-results');
     $addButton.textContent = '+';
     $priceAndButton.appendChild($addButton);
+    // EVENT LISTENER: to listen for when the add button is clicked
+    $addButton.addEventListener('click', () => {
+      alert('Card Added Successfully', 1000);
+    });
   }
   if (cardInfoArray.length === 0) {
     displayNoMatches();
@@ -209,3 +213,19 @@ $myCollectionButton.addEventListener('click', () => {
   viewSwap('my-collection');
   $searchInput.value = '';
 });
+// FUNCTION: to show alert for adding or deleting cards to collection
+function alert(message, duration) {
+  const $alert = document.createElement('div');
+  $alert.setAttribute('class', 'row alert');
+  document.body.appendChild($alert);
+  const $checkMark = document.createElement('i');
+  $checkMark.setAttribute('class', 'fa-solid fa-check');
+  $alert.appendChild($checkMark);
+  const $alertMessage = document.createElement('p');
+  $alertMessage.setAttribute('class', 'alert-message');
+  $alertMessage.textContent = message;
+  $alert.appendChild($alertMessage);
+  setTimeout(() => {
+    document.body.removeChild($alert);
+  }, duration);
+}
