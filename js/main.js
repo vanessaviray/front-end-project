@@ -1,11 +1,11 @@
 'use strict';
 // QUERIES
 const $form = document.querySelector('form');
-const $welcomePage = document.querySelector('#welcome-page');
+const $welcomePage = document.querySelector('.welcome-page');
 const $searchResults = document.querySelector('#search-results');
-const $marketmonLogo = document.querySelector('#marketmon-logo');
-const $searchInput = document.querySelector('#search-input');
-const $cardContainerRow = document.querySelector('#card-container-row');
+const $marketmonLogo = document.querySelector('.marketmon-logo');
+const $searchInput = document.querySelector('.search-input');
+const $cardContainerRow = document.querySelector('.card-container-row');
 if (!$form) throw new Error('the $from query failed.');
 if (!$welcomePage) throw new Error('the $welcomePage query failed');
 if (!$searchResults) throw new Error('the $searchResults query failed');
@@ -15,6 +15,7 @@ if (!$cardContainerRow) throw new Error('the $cardContainerRow query failed.');
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 $marketmonLogo.addEventListener('click', () => {
   viewSwap('welcome-page');
+  $searchInput.value = '';
 });
 // EVENT LISTENER: to listen for when a search is submitted
 $form.addEventListener('submit', (event) => {
@@ -33,7 +34,7 @@ function viewSwap(view) {
   const valueOfView = view;
   data.view = valueOfView;
   if (view === 'welcome-page') {
-    $welcomePage.className = 'row container show';
+    $welcomePage.className = 'row container welcome-page show';
     $searchResults.className = 'hidden';
   } else if (view === 'search-results') {
     $welcomePage.className = 'hidden';
@@ -73,56 +74,58 @@ function renderCards(cardObjects) {
       cardNumber: cardObjects.data[i].number,
     };
     // access the price type data by order of rarity (starting with the most common)
-    let marketPrice = '';
-    let priceType = '';
     if (
       cardObjects.data[i].tcgplayer !== undefined &&
       cardObjects.data[i].tcgplayer.prices !== undefined
     ) {
       if (cardObjects.data[i].tcgplayer.prices.normal) {
         const normal = cardObjects.data[i].tcgplayer.prices.normal.market;
-        priceType = 'Normal';
-        marketPrice = formatMarketPrice(parseFloat(normal));
+        cardInfo.priceType = 'Normal';
+        cardInfo.marketPrice = formatMarketPrice(parseFloat(normal));
       } else if (cardObjects.data[i].tcgplayer.prices.holofoil) {
         const holofoil = cardObjects.data[i].tcgplayer.prices.holofoil.market;
-        priceType = 'Holofoil';
-        marketPrice = formatMarketPrice(parseFloat(holofoil));
+        cardInfo.priceType = 'Holofoil';
+        cardInfo.marketPrice = formatMarketPrice(parseFloat(holofoil));
       } else if (cardObjects.data[i].tcgplayer.prices.reverseHolofoil) {
         const reverseHolofoil =
           cardObjects.data[i].tcgplayer.prices.reverseHolofoil.market;
-        priceType = 'Reverse Holofoil';
-        marketPrice = formatMarketPrice(parseFloat(reverseHolofoil));
+        cardInfo.priceType = 'Reverse Holofoil';
+        cardInfo.marketPrice = formatMarketPrice(parseFloat(reverseHolofoil));
       } else if (cardObjects.data[i].tcgplayer.prices['1stEditionNormal']) {
         const firstEditionNormal =
           cardObjects.data[i].tcgplayer.prices['1stEditionNormal'].market;
-        priceType = '1st Edition Normal';
-        marketPrice = formatMarketPrice(parseFloat(firstEditionNormal));
+        cardInfo.priceType = '1st Edition Normal';
+        cardInfo.marketPrice = formatMarketPrice(
+          parseFloat(firstEditionNormal),
+        );
       } else if (cardObjects.data[i].tcgplayer.prices['1stEditionHolofoil']) {
         const firstEditionHolofoil =
           cardObjects.data[i].tcgplayer.prices['1stEditionHolofoil'].market;
-        priceType = '1st Edition Holofoil';
-        marketPrice = formatMarketPrice(parseFloat(firstEditionHolofoil));
+        cardInfo.priceType = '1st Edition Holofoil';
+        cardInfo.marketPrice = formatMarketPrice(
+          parseFloat(firstEditionHolofoil),
+        );
       } else if (cardObjects.data[i].tcgplayer.prices['1stEdition']) {
         const firstEdition =
           cardObjects.data[i].tcgplayer.prices['1stEdition'].market;
-        priceType = '1st Edition';
-        marketPrice = formatMarketPrice(parseFloat(firstEdition));
+        cardInfo.priceType = '1st Edition';
+        cardInfo.marketPrice = formatMarketPrice(parseFloat(firstEdition));
       } else if (cardObjects.data[i].tcgplayer.prices.unlimited) {
         const unlimited = cardObjects.data[i].tcgplayer.prices.unlimited.market;
-        priceType = 'Unlimited';
-        marketPrice = formatMarketPrice(parseFloat(unlimited));
+        cardInfo.priceType = 'Unlimited';
+        cardInfo.marketPrice = formatMarketPrice(parseFloat(unlimited));
       } else if (cardObjects.data[i].tcgplayer.prices.unlimitedHolofoil) {
         const unlimitedHolofoil =
           cardObjects.data[i].tcgplayer.prices.unlimitedHolofoil.market;
-        priceType = 'Unlimited Holofoil';
-        marketPrice = formatMarketPrice(parseFloat(unlimitedHolofoil));
+        cardInfo.priceType = 'Unlimited Holofoil';
+        cardInfo.marketPrice = formatMarketPrice(parseFloat(unlimitedHolofoil));
       } else {
-        priceType = 'Market Value';
-        marketPrice = 'Not Available';
+        cardInfo.priceType = 'Market Value';
+        cardInfo.marketPrice = 'Not Available';
       }
     } else {
-      priceType = 'Market Value';
-      marketPrice = 'Not Available';
+      cardInfo.priceType = 'Market Value';
+      cardInfo.marketPrice = 'Not Available';
     }
     cardInfoArray.push(cardInfo);
     // DOM TREE: to render search results
@@ -134,31 +137,33 @@ function renderCards(cardObjects) {
     $imageElement.setAttribute('alt', 'pokemon card');
     $cardContainer.appendChild($imageElement);
     const $cardNameH4Element = document.createElement('h4');
-    $cardNameH4Element.setAttribute('id', 'card-name-search-results');
+    $cardNameH4Element.setAttribute('class', 'card-name-search-results');
     $cardNameH4Element.textContent = cardInfo.cardName;
     $cardContainer.appendChild($cardNameH4Element);
     const $setNamePElement = document.createElement('p');
-    $setNamePElement.setAttribute('id', 'set-name-search-results');
+    $setNamePElement.setAttribute('class', 'set-name-search-results');
     $setNamePElement.textContent = cardInfo.setName;
     $cardContainer.appendChild($setNamePElement);
     const $cardNumberPElement = document.createElement('p');
-    $cardNumberPElement.setAttribute('id', 'card-number-search-results');
+    $cardNumberPElement.setAttribute('class', 'card-number-search-results');
     $cardNumberPElement.textContent = cardInfo.cardNumber;
     $cardContainer.appendChild($cardNumberPElement);
     const $priceType = document.createElement('p');
-    $priceType.setAttribute('id', 'price-type-search-results');
-    $priceType.textContent = priceType;
+    $priceType.setAttribute('class', 'price-type-search-results');
+    $priceType.textContent = cardInfo.priceType;
     $cardContainer.appendChild($priceType);
     const $priceAndButton = document.createElement('div');
-    $priceAndButton.setAttribute('id', 'price-and-button-search-results');
-    $priceAndButton.setAttribute('class', 'row');
+    $priceAndButton.setAttribute(
+      'class',
+      'row price-and-button-search-results',
+    );
     $cardContainer.appendChild($priceAndButton);
     const $marketPrice = document.createElement('p');
-    $marketPrice.setAttribute('id', 'market-price-search-results');
-    $marketPrice.textContent = marketPrice;
+    $marketPrice.setAttribute('class', 'market-price-search-results');
+    $marketPrice.textContent = cardInfo.marketPrice;
     $priceAndButton.appendChild($marketPrice);
     const $addButton = document.createElement('button');
-    $addButton.setAttribute('id', 'add-button-search-results');
+    $addButton.setAttribute('class', 'add-button-search-results');
     $addButton.textContent = '+';
     $priceAndButton.appendChild($addButton);
   }
@@ -169,15 +174,15 @@ function renderCards(cardObjects) {
 // FUNCTION AND DOM TREE: to show when there are no results
 function displayNoMatches() {
   const $pokeballNoMatches = document.createElement('div');
-  $pokeballNoMatches.setAttribute('id', 'pokeball-no-matches');
+  $pokeballNoMatches.setAttribute('class', 'pokeball-no-matches');
   $cardContainerRow.appendChild($pokeballNoMatches);
   const $pokeballImage = document.createElement('img');
   $pokeballImage.setAttribute('src', 'images/pokeball.png');
   $pokeballImage.setAttribute('alt', 'yellow pokeball');
-  $pokeballImage.setAttribute('id', 'yellow-pokeball-image');
+  $pokeballImage.setAttribute('class', 'yellow-pokeball-image');
   $pokeballNoMatches.appendChild($pokeballImage);
   const $noMatches = document.createElement('p');
-  $noMatches.setAttribute('id', 'no-matching-searches');
+  $noMatches.setAttribute('class', 'no-matching-searches');
   $noMatches.textContent = `Hmm.. we couldn't find any cards matching your search criteria. Try searching by name (for example: "lugia" or "eevee").`;
   $pokeballNoMatches.appendChild($noMatches);
 }
