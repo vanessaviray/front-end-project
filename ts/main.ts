@@ -12,6 +12,9 @@ const $searchInput = document.querySelector('.search-input') as HTMLFormElement;
 const $cardContainerRow = document.querySelector(
   '.card-container-row',
 ) as HTMLDivElement;
+const $myCollection = document.querySelector(
+  '#my-collection',
+) as HTMLDivElement;
 
 if (!$form) throw new Error('the $from query failed.');
 if (!$welcomePage) throw new Error('the $welcomePage query failed');
@@ -19,6 +22,7 @@ if (!$searchResults) throw new Error('the $searchResults query failed');
 if (!$marketmonLogo) throw new Error('the $marketmonLogo query failed');
 if (!$searchInput) throw new Error('the $searchInput query failed.');
 if (!$cardContainerRow) throw new Error('the $cardContainerRow query failed.');
+if (!$myCollection) throw new Error('the $myCollection query failed.');
 
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 
@@ -50,9 +54,15 @@ function viewSwap(view: string): void {
   if (view === 'welcome-page') {
     $welcomePage.className = 'row container welcome-page show';
     $searchResults.className = 'hidden';
+    $myCollection.className = 'hidden';
   } else if (view === 'search-results') {
     $welcomePage.className = 'hidden';
     $searchResults.className = 'show';
+    $myCollection.className = 'hidden';
+  } else if (view === 'my-collection') {
+    $welcomePage.className = 'hidden';
+    $searchResults.className = 'hidden';
+    $myCollection.className = 'show';
   }
 }
 
