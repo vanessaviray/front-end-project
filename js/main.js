@@ -53,6 +53,7 @@ async function fetchCards(searchCriteria) {
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
+      console.log(cardObjects);
       renderCards(cardObjects);
     }
   } catch (error) {
@@ -62,8 +63,8 @@ async function fetchCards(searchCriteria) {
 // FUNCTION: to render cards for search result
 function renderCards(cardObjects) {
   // created an array of objects that each store the information of a single card
-  const cardObjectsData = cardObjects.data;
   const cardInfoArray = [];
+  const cardObjectsData = cardObjects.data;
   for (let i = 0; i < cardObjectsData.length; i++) {
     const cardInfo = {
       smallImage: cardObjects.data[i].images.small,
@@ -116,8 +117,12 @@ function renderCards(cardObjects) {
         priceType = 'Unlimited Holofoil';
         marketPrice = formatMarketPrice(parseFloat(unlimitedHolofoil));
       } else {
+        priceType = 'Market Value';
         marketPrice = 'Not Available';
       }
+    } else {
+      priceType = 'Market Value';
+      marketPrice = 'Not Available';
     }
     cardInfoArray.push(cardInfo);
     // DOM TREE: to render search results

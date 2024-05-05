@@ -69,6 +69,7 @@ async function fetchCards(searchCriteria: unknown): Promise<void> {
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
+      console.log(cardObjects);
       renderCards(cardObjects);
     }
   } catch (error) {
@@ -81,11 +82,18 @@ async function fetchCards(searchCriteria: unknown): Promise<void> {
 function renderCards(cardObjects: any): any {
   // created an array of objects that each store the information of a single card
 
+  interface CardInfo {
+    smallImage: string;
+    cardName: string;
+    setName: string;
+    cardNumber: string;
+  }
+
+  const cardInfoArray: CardInfo[] = [];
   const cardObjectsData = cardObjects.data;
-  const cardInfoArray: any = [];
 
   for (let i = 0; i < cardObjectsData.length; i++) {
-    const cardInfo: any = {
+    const cardInfo: CardInfo = {
       smallImage: cardObjects.data[i].images.small,
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
@@ -139,8 +147,12 @@ function renderCards(cardObjects: any): any {
         priceType = 'Unlimited Holofoil';
         marketPrice = formatMarketPrice(parseFloat(unlimitedHolofoil));
       } else {
+        priceType = 'Market Value';
         marketPrice = 'Not Available';
       }
+    } else {
+      priceType = 'Market Value';
+      marketPrice = 'Not Available';
     }
 
     cardInfoArray.push(cardInfo);
