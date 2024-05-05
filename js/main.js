@@ -6,12 +6,17 @@ const $searchResults = document.querySelector('#search-results');
 const $marketmonLogo = document.querySelector('.marketmon-logo');
 const $searchInput = document.querySelector('.search-input');
 const $cardContainerRow = document.querySelector('.card-container-row');
+const $myCollection = document.querySelector('#my-collection');
+const $myCollectionButton = document.querySelector('.my-collection-button');
 if (!$form) throw new Error('the $from query failed.');
 if (!$welcomePage) throw new Error('the $welcomePage query failed');
 if (!$searchResults) throw new Error('the $searchResults query failed');
 if (!$marketmonLogo) throw new Error('the $marketmonLogo query failed');
 if (!$searchInput) throw new Error('the $searchInput query failed.');
 if (!$cardContainerRow) throw new Error('the $cardContainerRow query failed.');
+if (!$myCollection) throw new Error('the $myCollection query failed.');
+if (!$myCollectionButton)
+  throw new Error('the $myCollectionButton query failed.');
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 $marketmonLogo.addEventListener('click', () => {
   viewSwap('welcome-page');
@@ -36,9 +41,15 @@ function viewSwap(view) {
   if (view === 'welcome-page') {
     $welcomePage.className = 'row container welcome-page show';
     $searchResults.className = 'hidden';
+    $myCollection.className = 'hidden';
   } else if (view === 'search-results') {
     $welcomePage.className = 'hidden';
     $searchResults.className = 'show';
+    $myCollection.className = 'hidden';
+  } else if (view === 'my-collection') {
+    $welcomePage.className = 'hidden';
+    $searchResults.className = 'hidden';
+    $myCollection.className = 'show';
   }
 }
 // FUNCTION: to fetch information from api
@@ -54,7 +65,6 @@ async function fetchCards(searchCriteria) {
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
-      console.log(cardObjects);
       renderCards(cardObjects);
     }
   } catch (error) {
@@ -194,3 +204,8 @@ function formatMarketPrice(price) {
     return 'Not Available';
   }
 }
+// EVENT LISTENER: to listen for when the 'My Collection' button is clicked
+$myCollectionButton.addEventListener('click', () => {
+  viewSwap('my-collection');
+  $searchInput.value = '';
+});

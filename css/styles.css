@@ -19,11 +19,7 @@
   width: 135px;
 }
 
-.marketmon-logo:hover {
-  cursor: pointer;
-}
-
-.my-collection {
+.my-collection-button {
   background-color: #ffc700;
   color: white;
   border: none;
@@ -216,10 +212,6 @@
   gap: 20px;
 }
 
-.card-container:hover {
-  cursor: pointer;
-}
-
 .pokeball-no-matches {
   display: flex;
   flex-direction: column;
@@ -245,6 +237,12 @@
   color: #4f4f4f;
 }
 
+.marketmon-logo:hover,
+.card-container:hover,
+.my-collection-button:hover {
+  cursor: pointer;
+}
+
 /* Media Queries */
 
 @media screen and (width >=768px) {
@@ -262,7 +260,7 @@
     margin-right: 20px;
   }
 
-  .my-collection {
+  .my-collection-button {
     width: 200px;
     margin-left: 16px;
   }

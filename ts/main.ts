@@ -15,6 +15,9 @@ const $cardContainerRow = document.querySelector(
 const $myCollection = document.querySelector(
   '#my-collection',
 ) as HTMLDivElement;
+const $myCollectionButton = document.querySelector(
+  '.my-collection-button',
+) as HTMLButtonElement;
 
 if (!$form) throw new Error('the $from query failed.');
 if (!$welcomePage) throw new Error('the $welcomePage query failed');
@@ -23,6 +26,8 @@ if (!$marketmonLogo) throw new Error('the $marketmonLogo query failed');
 if (!$searchInput) throw new Error('the $searchInput query failed.');
 if (!$cardContainerRow) throw new Error('the $cardContainerRow query failed.');
 if (!$myCollection) throw new Error('the $myCollection query failed.');
+if (!$myCollectionButton)
+  throw new Error('the $myCollectionButton query failed.');
 
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 
@@ -252,3 +257,10 @@ function formatMarketPrice(price: any): string {
     return 'Not Available';
   }
 }
+
+// EVENT LISTENER: to listen for when the 'My Collection' button is clicked
+
+$myCollectionButton.addEventListener('click', () => {
+  viewSwap('my-collection');
+  $searchInput.value = '';
+});
