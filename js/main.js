@@ -1,5 +1,6 @@
 'use strict';
-// QUERIES
+// INTERFACES:
+// DOM QUERIES:
 const $form = document.querySelector('form');
 const $welcomePage = document.querySelector('.welcome-page');
 const $searchResults = document.querySelector('#search-results');
@@ -8,15 +9,23 @@ const $searchInput = document.querySelector('.search-input');
 const $cardContainerRow = document.querySelector('.card-container-row');
 const $myCollection = document.querySelector('#my-collection');
 const $myCollectionButton = document.querySelector('.my-collection-button');
-if (!$form) throw new Error('the $from query failed.');
-if (!$welcomePage) throw new Error('the $welcomePage query failed');
-if (!$searchResults) throw new Error('the $searchResults query failed');
-if (!$marketmonLogo) throw new Error('the $marketmonLogo query failed');
-if (!$searchInput) throw new Error('the $searchInput query failed.');
-if (!$cardContainerRow) throw new Error('the $cardContainerRow query failed.');
-if (!$myCollection) throw new Error('the $myCollection query failed.');
-if (!$myCollectionButton)
-  throw new Error('the $myCollectionButton query failed.');
+const $cardContainerRowCollection = document.querySelector(
+  '.card-container-row-collection',
+);
+const domQueries = {
+  $form,
+  $welcomePage,
+  $searchResults,
+  $marketmonLogo,
+  $searchInput,
+  $cardContainerRow,
+  $myCollection,
+  $myCollectionButton,
+  $cardContainerRowCollection,
+};
+for (const key in domQueries) {
+  if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
+}
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 $marketmonLogo.addEventListener('click', () => {
   viewSwap('welcome-page');
@@ -65,14 +74,14 @@ async function fetchCards(searchCriteria) {
     if (searchCriteria === '') {
       displayNoMatches();
     } else {
-      renderCards(cardObjects);
+      renderSearchedCards(cardObjects);
     }
   } catch (error) {
     console.log('Fetch function failed: ', error);
   }
 }
 // FUNCTION: to render cards for search result
-function renderCards(cardObjects) {
+function renderSearchedCards(cardObjects) {
   // created an array of objects that each store the information of a single card
   const cardInfoArray = [];
   const cardObjectsData = cardObjects.data;
@@ -215,6 +224,8 @@ function formatMarketPrice(price) {
 $myCollectionButton.addEventListener('click', () => {
   viewSwap('my-collection');
   $searchInput.value = '';
+  $cardContainerRowCollection.innerHTML = '';
+  renderCollectionCards();
 });
 // FUNCTION: to show alert for adding or deleting cards to collection
 function alert(message, duration) {
@@ -231,4 +242,46 @@ function alert(message, duration) {
   setTimeout(() => {
     document.body.removeChild($alert);
   }, duration);
+}
+// FUNCTION: to render collection
+function renderCollectionCards() {
+  for (let i = 0; i < data.cards.length; i++) {
+    const $cardContainer = document.createElement('div');
+    $cardContainer.setAttribute('class', 'card-container column-full');
+    $cardContainerRowCollection.appendChild($cardContainer);
+    const $imageElement = document.createElement('img');
+    $imageElement.setAttribute('src', `${data.cards[i].smallImage}`);
+    $imageElement.setAttribute('alt', 'pokemon card');
+    $cardContainer.appendChild($imageElement);
+    const $cardNameH4Element = document.createElement('h4');
+    $cardNameH4Element.setAttribute('class', 'card-name-search-results');
+    $cardNameH4Element.textContent = data.cards[i].cardName;
+    $cardContainer.appendChild($cardNameH4Element);
+    const $setNamePElement = document.createElement('p');
+    $setNamePElement.setAttribute('class', 'set-name-search-results');
+    $setNamePElement.textContent = data.cards[i].setName;
+    $cardContainer.appendChild($setNamePElement);
+    const $cardNumberPElement = document.createElement('p');
+    $cardNumberPElement.setAttribute('class', 'card-number-search-results');
+    $cardNumberPElement.textContent = data.cards[i].cardNumber;
+    $cardContainer.appendChild($cardNumberPElement);
+    const $priceType = document.createElement('p');
+    $priceType.setAttribute('class', 'price-type-search-results');
+    $priceType.textContent = data.cards[i].priceType;
+    $cardContainer.appendChild($priceType);
+    const $priceAndButton = document.createElement('div');
+    $priceAndButton.setAttribute(
+      'class',
+      'row price-and-button-search-results',
+    );
+    $cardContainer.appendChild($priceAndButton);
+    const $marketPrice = document.createElement('p');
+    $marketPrice.setAttribute('class', 'market-price-search-results');
+    $marketPrice.textContent = data.cards[i].marketPrice;
+    $priceAndButton.appendChild($marketPrice);
+    const $removeButton = document.createElement('button');
+    $removeButton.setAttribute('class', 'add-button-search-results');
+    $removeButton.textContent = '-';
+    $priceAndButton.appendChild($removeButton);
+  }
 }
