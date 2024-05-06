@@ -378,9 +378,8 @@ function renderCollectionCards(): void {
 
     // EVENT LISTENERS for modal actions
 
-    $removeButton.addEventListener('click', (event) => {
+    $removeButton.addEventListener('click', () => {
       $dialog.showModal();
-      event.preventDefault();
       const dataCardId = $cardContainer.getAttribute('data-card-id');
       for (let i = 0; i < data.cards.length; i++) {
         if (data.cards[i].cardId.toString() === dataCardId) {
