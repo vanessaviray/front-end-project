@@ -99,6 +99,7 @@ function renderSearchedCards(cardObjects) {
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
       cardNumber: cardObjects.data[i].number,
+      cardId: 0,
     };
     // access the price type data by order of rarity (starting with the most common)
     if (
@@ -256,6 +257,10 @@ function renderCollectionCards() {
   for (let i = 0; i < data.cards.length; i++) {
     const $cardContainer = document.createElement('div');
     $cardContainer.setAttribute('class', 'card-container column-full');
+    $cardContainer.setAttribute(
+      'data-card-id',
+      data.cards[i].cardId.toString(),
+    );
     $cardContainerRowCollection.appendChild($cardContainer);
     const $imageElement = document.createElement('img');
     $imageElement.setAttribute('src', `${data.cards[i].smallImage}`);
@@ -295,12 +300,19 @@ function renderCollectionCards() {
     $removeButton.addEventListener('click', (event) => {
       $dialog.showModal();
       event.preventDefault();
+      const dataCardId = $cardContainer.getAttribute('data-card-id');
+      for (let i = 0; i < data.cards.length; i++) {
+        if (data.cards[i].cardId.toString() === dataCardId) {
+          data.cards.splice(i, 1);
+        }
+      }
     });
     $xIcon.addEventListener('click', () => {
       $dialog.close();
     });
     $confirmRemoveButton.addEventListener('click', () => {
       $dialog.close();
+      alert('Card Removed Successfully', 1000);
     });
     $cancelButton.addEventListener('click', () => {
       $dialog.close();

@@ -7,7 +7,7 @@ interface CardInfo {
   cardNumber: string;
   priceType?: string;
   marketPrice?: string;
-  cardId?: number;
+  cardId: number;
 }
 
 // DOM QUERIES:
@@ -139,6 +139,7 @@ function renderSearchedCards(cardObjects: any): any {
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
       cardNumber: cardObjects.data[i].number,
+      cardId: 0,
     };
 
     // access the price type data by order of rarity (starting with the most common)
@@ -327,6 +328,10 @@ function renderCollectionCards(): void {
   for (let i = 0; i < data.cards.length; i++) {
     const $cardContainer = document.createElement('div');
     $cardContainer.setAttribute('class', 'card-container column-full');
+    $cardContainer.setAttribute(
+      'data-card-id',
+      data.cards[i].cardId.toString(),
+    );
     $cardContainerRowCollection.appendChild($cardContainer);
 
     const $imageElement = document.createElement('img');
@@ -376,6 +381,12 @@ function renderCollectionCards(): void {
     $removeButton.addEventListener('click', (event) => {
       $dialog.showModal();
       event.preventDefault();
+      const dataCardId = $cardContainer.getAttribute('data-card-id');
+      for (let i = 0; i < data.cards.length; i++) {
+        if (data.cards[i].cardId.toString() === dataCardId) {
+          data.cards.splice(i, 1);
+        }
+      }
     });
 
     $xIcon.addEventListener('click', () => {
@@ -384,6 +395,7 @@ function renderCollectionCards(): void {
 
     $confirmRemoveButton.addEventListener('click', () => {
       $dialog.close();
+      alert('Card Removed Successfully', 1000);
     });
 
     $cancelButton.addEventListener('click', () => {

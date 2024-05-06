@@ -219,6 +219,7 @@
 
 .card-container-row,
 .card-container-row-collection {
+  width: 100%;
   gap: 20px;
 }
 
@@ -287,7 +288,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 dialog > .text {
@@ -438,11 +439,6 @@ dialog > .subtext {
   .page-heading-row {
     padding-top: 20px;
     padding-bottom: 10px;
-  }
-
-  .card-container-row,
-  .card-container-row-collection {
-    width: 100%;
   }
 
   .card-container {
