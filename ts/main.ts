@@ -7,7 +7,7 @@ interface CardInfo {
   cardNumber: string;
   priceType?: string;
   marketPrice?: string;
-  cardId?: number;
+  cardId: number;
 }
 
 // DOM QUERIES:
@@ -33,6 +33,14 @@ const $myCollectionButton = document.querySelector(
 const $cardContainerRowCollection = document.querySelector(
   '.card-container-row-collection',
 ) as HTMLDivElement;
+const $cancelButton = document.querySelector(
+  '.cancel-button',
+) as HTMLButtonElement;
+const $confirmRemoveButton = document.querySelector(
+  '.confirm-remove-button',
+) as HTMLButtonElement;
+const $dialog = document.querySelector('dialog') as HTMLDialogElement;
+const $xIcon = document.querySelector('.fa-x') as HTMLElement;
 
 const domQueries: Record<string, any> = {
   $form,
@@ -44,6 +52,10 @@ const domQueries: Record<string, any> = {
   $myCollection,
   $myCollectionButton,
   $cardContainerRowCollection,
+  $cancelButton,
+  $confirmRemoveButton,
+  $dialog,
+  $xIcon,
 };
 
 for (const key in domQueries) {
@@ -127,6 +139,7 @@ function renderSearchedCards(cardObjects: any): any {
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
       cardNumber: cardObjects.data[i].number,
+      cardId: 0,
     };
 
     // access the price type data by order of rarity (starting with the most common)
@@ -315,6 +328,10 @@ function renderCollectionCards(): void {
   for (let i = 0; i < data.cards.length; i++) {
     const $cardContainer = document.createElement('div');
     $cardContainer.setAttribute('class', 'card-container column-full');
+    $cardContainer.setAttribute(
+      'data-card-id',
+      data.cards[i].cardId.toString(),
+    );
     $cardContainerRowCollection.appendChild($cardContainer);
 
     const $imageElement = document.createElement('img');
@@ -358,5 +375,30 @@ function renderCollectionCards(): void {
     $removeButton.setAttribute('class', 'add-button-search-results');
     $removeButton.textContent = '-';
     $priceAndButton.appendChild($removeButton);
+
+    // EVENT LISTENERS for modal actions
+
+    $removeButton.addEventListener('click', () => {
+      $dialog.showModal();
+      const dataCardId = $cardContainer.getAttribute('data-card-id');
+      for (let i = 0; i < data.cards.length; i++) {
+        if (data.cards[i].cardId.toString() === dataCardId) {
+          data.cards.splice(i, 1);
+        }
+      }
+    });
+
+    $xIcon.addEventListener('click', () => {
+      $dialog.close();
+    });
+
+    $confirmRemoveButton.addEventListener('click', () => {
+      $dialog.close();
+      alert('Card Removed Successfully', 1000);
+    });
+
+    $cancelButton.addEventListener('click', () => {
+      $dialog.close();
+    });
   }
 }
