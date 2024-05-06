@@ -33,6 +33,14 @@ const $myCollectionButton = document.querySelector(
 const $cardContainerRowCollection = document.querySelector(
   '.card-container-row-collection',
 ) as HTMLDivElement;
+const $cancelButton = document.querySelector(
+  '.cancel-button',
+) as HTMLButtonElement;
+const $confirmRemoveButton = document.querySelector(
+  '.confirm-remove-button',
+) as HTMLButtonElement;
+const $dialog = document.querySelector('dialog') as HTMLDialogElement;
+const $xIcon = document.querySelector('.fa-x') as HTMLElement;
 
 const domQueries: Record<string, any> = {
   $form,
@@ -44,6 +52,10 @@ const domQueries: Record<string, any> = {
   $myCollection,
   $myCollectionButton,
   $cardContainerRowCollection,
+  $cancelButton,
+  $confirmRemoveButton,
+  $dialog,
+  $xIcon,
 };
 
 for (const key in domQueries) {
@@ -358,5 +370,24 @@ function renderCollectionCards(): void {
     $removeButton.setAttribute('class', 'add-button-search-results');
     $removeButton.textContent = '-';
     $priceAndButton.appendChild($removeButton);
+
+    // EVENT LISTENERS for modal actions
+
+    $removeButton.addEventListener('click', (event) => {
+      $dialog.showModal();
+      event.preventDefault();
+    });
+
+    $xIcon.addEventListener('click', () => {
+      $dialog.close();
+    });
+
+    $confirmRemoveButton.addEventListener('click', () => {
+      $dialog.close();
+    });
+
+    $cancelButton.addEventListener('click', () => {
+      $dialog.close();
+    });
   }
 }

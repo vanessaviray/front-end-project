@@ -12,6 +12,10 @@ const $myCollectionButton = document.querySelector('.my-collection-button');
 const $cardContainerRowCollection = document.querySelector(
   '.card-container-row-collection',
 );
+const $cancelButton = document.querySelector('.cancel-button');
+const $confirmRemoveButton = document.querySelector('.confirm-remove-button');
+const $dialog = document.querySelector('dialog');
+const $xIcon = document.querySelector('.fa-x');
 const domQueries = {
   $form,
   $welcomePage,
@@ -22,6 +26,10 @@ const domQueries = {
   $myCollection,
   $myCollectionButton,
   $cardContainerRowCollection,
+  $cancelButton,
+  $confirmRemoveButton,
+  $dialog,
+  $xIcon,
 };
 for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
@@ -283,5 +291,19 @@ function renderCollectionCards() {
     $removeButton.setAttribute('class', 'add-button-search-results');
     $removeButton.textContent = '-';
     $priceAndButton.appendChild($removeButton);
+    // EVENT LISTENERS for modal actions
+    $removeButton.addEventListener('click', (event) => {
+      $dialog.showModal();
+      event.preventDefault();
+    });
+    $xIcon.addEventListener('click', () => {
+      $dialog.close();
+    });
+    $confirmRemoveButton.addEventListener('click', () => {
+      $dialog.close();
+    });
+    $cancelButton.addEventListener('click', () => {
+      $dialog.close();
+    });
   }
 }
