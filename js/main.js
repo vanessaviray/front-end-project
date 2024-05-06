@@ -16,6 +16,7 @@ const $cancelButton = document.querySelector('.cancel-button');
 const $confirmRemoveButton = document.querySelector('.confirm-remove-button');
 const $dialog = document.querySelector('dialog');
 const $xIcon = document.querySelector('.fa-x');
+const $noCardsMessages = document.querySelector('.no-cards-message');
 const domQueries = {
   $form,
   $welcomePage,
@@ -30,6 +31,7 @@ const domQueries = {
   $confirmRemoveButton,
   $dialog,
   $xIcon,
+  $noCardsMessages,
 };
 for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
@@ -235,6 +237,7 @@ $myCollectionButton.addEventListener('click', () => {
   $searchInput.value = '';
   $cardContainerRowCollection.innerHTML = '';
   renderCollectionCards();
+  noCardsInCollection();
 });
 // FUNCTION: to show alert for adding or deleting cards to collection
 function alert(message, duration) {
@@ -316,5 +319,13 @@ function renderCollectionCards() {
     $cancelButton.addEventListener('click', () => {
       $dialog.close();
     });
+  }
+}
+// FUNCTION: to display message if there are no cards in the collection
+function noCardsInCollection() {
+  if (data.cards.length === 0) {
+    $noCardsMessages.className = 'no-cards-message';
+  } else {
+    $noCardsMessages.className = 'no-cards-message hidden';
   }
 }

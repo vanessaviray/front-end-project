@@ -233,6 +233,15 @@
   margin-top: 70px;
 }
 
+.no-cards-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 70px;
+}
+
 .yellow-pokeball-image {
   max-width: 70px;
   margin: 24px;
