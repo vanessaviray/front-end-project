@@ -221,6 +221,7 @@
 .card-container-row-collection {
   width: 100%;
   gap: 20px;
+  margin-top: 24px;
 }
 
 .pokeball-no-matches {
@@ -274,6 +275,26 @@
 
 .alert-message {
   text-wrap: nowrap;
+}
+
+.heading-and-market-value {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: #322828;
+}
+
+.market-value {
+  font-size: 14px;
+  color: #999;
+  font-weight: 500;
+}
+
+.dollars {
+  font-size: 18px;
+  font-weight: 700;
+  color: #322828;
+  margin-top: 6px;
 }
 
 /* Remove modal */
@@ -356,6 +377,8 @@ dialog > .subtext {
   margin-top: 24px;
   margin-bottom: 14px;
 }
+
+/* hover states */
 
 .marketmon-logo:hover,
 .card-container:hover,
@@ -480,5 +503,21 @@ dialog > .subtext {
   .modal-actions {
     height: 120px;
     margin-bottom: 26px;
+  }
+
+  .heading-and-market-value {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .market-value {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  .card-container-row-collection {
+    margin-top: 10px;
   }
 }
