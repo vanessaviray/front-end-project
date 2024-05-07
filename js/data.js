@@ -3,6 +3,7 @@
 let data = {
   view: 'welcome-page',
   cards: [],
+  selectedCard: null,
   nextCardId: 1,
 };
 const previousEntriesJSON = localStorage.getItem('javascript-local-storage');

@@ -392,12 +392,8 @@ function renderCollectionCards(): void {
 
     $removeButton.addEventListener('click', () => {
       $dialog.showModal();
-      const dataCardId = $cardContainer.getAttribute('data-card-id');
-      for (let i = 0; i < data.cards.length; i++) {
-        if (data.cards[i].cardId.toString() === dataCardId) {
-          data.cards.splice(i, 1);
-        }
-      }
+      const closestResult = $removeButton.closest('.card-container');
+      data.selectedCard = closestResult;
     });
 
     $xIcon.addEventListener('click', () => {
@@ -406,11 +402,16 @@ function renderCollectionCards(): void {
 
     $confirmRemoveButton.addEventListener('click', () => {
       $dialog.close();
+      const dataCardId = data.selectedCard?.getAttribute('data-card-id');
+      for (let i = 0; i < data.cards.length; i++) {
+        if (data.cards[i].cardId.toString() === dataCardId) {
+          data.cards.splice(i, 1);
+          data.selectedCard?.remove();
+          getMarketValue();
+          noCardsInCollection();
+        }
+      }
       alert('Card Removed Successfully', 1000);
-      $cardContainerRowCollection.innerHTML = '';
-      renderCollectionCards();
-      noCardsInCollection();
-      getMarketValue();
     });
 
     $cancelButton.addEventListener('click', () => {
