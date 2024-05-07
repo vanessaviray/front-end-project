@@ -322,6 +322,10 @@ function renderCollectionCards() {
     $confirmRemoveButton.addEventListener('click', () => {
       $dialog.close();
       alert('Card Removed Successfully', 1000);
+      $cardContainerRowCollection.innerHTML = '';
+      renderCollectionCards();
+      noCardsInCollection();
+      getMarketValue();
     });
     $cancelButton.addEventListener('click', () => {
       $dialog.close();
