@@ -3,12 +3,14 @@
 interface Data {
   view: string;
   cards: CardInfo[];
+  selectedCard: null | Element;
   nextCardId: number;
 }
 
 let data: Data = {
   view: 'welcome-page',
   cards: [],
+  selectedCard: null,
   nextCardId: 1,
 };
 

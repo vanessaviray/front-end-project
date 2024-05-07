@@ -16,6 +16,8 @@ const $cancelButton = document.querySelector('.cancel-button');
 const $confirmRemoveButton = document.querySelector('.confirm-remove-button');
 const $dialog = document.querySelector('dialog');
 const $xIcon = document.querySelector('.fa-x');
+const $noCardsMessages = document.querySelector('.no-cards-message');
+const $dollars = document.querySelector('.dollars');
 const domQueries = {
   $form,
   $welcomePage,
@@ -30,6 +32,8 @@ const domQueries = {
   $confirmRemoveButton,
   $dialog,
   $xIcon,
+  $noCardsMessages,
+  $dollars,
 };
 for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
@@ -224,7 +228,11 @@ function displayNoMatches() {
 // FUNCTION: to format the display of the market value
 function formatMarketPrice(price) {
   if (typeof price === 'number') {
-    return `$${price.toFixed(2)}`;
+    if (price.toString() === 'NaN') {
+      return 'Not Available';
+    } else {
+      return `$${price.toFixed(2)}`;
+    }
   } else {
     return 'Not Available';
   }
@@ -235,6 +243,8 @@ $myCollectionButton.addEventListener('click', () => {
   $searchInput.value = '';
   $cardContainerRowCollection.innerHTML = '';
   renderCollectionCards();
+  noCardsInCollection();
+  getMarketValue();
 });
 // FUNCTION: to show alert for adding or deleting cards to collection
 function alert(message, duration) {
@@ -299,22 +309,48 @@ function renderCollectionCards() {
     // EVENT LISTENERS for modal actions
     $removeButton.addEventListener('click', () => {
       $dialog.showModal();
-      const dataCardId = $cardContainer.getAttribute('data-card-id');
-      for (let i = 0; i < data.cards.length; i++) {
-        if (data.cards[i].cardId.toString() === dataCardId) {
-          data.cards.splice(i, 1);
-        }
-      }
+      const closestResult = $removeButton.closest('.card-container');
+      data.selectedCard = closestResult;
     });
     $xIcon.addEventListener('click', () => {
       $dialog.close();
     });
     $confirmRemoveButton.addEventListener('click', () => {
       $dialog.close();
+      const dataCardId = data.selectedCard?.getAttribute('data-card-id');
+      for (let i = 0; i < data.cards.length; i++) {
+        if (data.cards[i].cardId.toString() === dataCardId) {
+          data.cards.splice(i, 1);
+          data.selectedCard?.remove();
+          getMarketValue();
+          noCardsInCollection();
+        }
+      }
       alert('Card Removed Successfully', 1000);
     });
     $cancelButton.addEventListener('click', () => {
       $dialog.close();
     });
+  }
+}
+// FUNCTION: to display message if there are no cards in the collection
+function noCardsInCollection() {
+  if (data.cards.length === 0) {
+    $noCardsMessages.className = 'no-cards-message';
+    $dollars.textContent = '$0.00';
+  } else {
+    $noCardsMessages.className = 'no-cards-message hidden';
+  }
+}
+// FUNCTION: to calculate and update the market value of the collection
+function getMarketValue() {
+  let totalMarketValue = 0;
+  for (let i = 0; i < data.cards.length; i++) {
+    const marketPrice = data.cards[i].marketPrice;
+    if (marketPrice !== 'Not Available') {
+      const convertToNum = parseFloat(marketPrice.replace('$', ''));
+      totalMarketValue += convertToNum;
+      $dollars.textContent = `$${totalMarketValue.toFixed(2)}`;
+    }
   }
 }
