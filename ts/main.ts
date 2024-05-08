@@ -309,27 +309,16 @@ function renderSearchedCards(cardObjects: any): any {
     $addButton.textContent = '+';
     $priceAndButton.appendChild($addButton);
 
-    // EVENT LISTENER: to listen for when the add button is clicked
-
-    $addButton.addEventListener('click', () => {
-      alert('Card Added Successfully', 1000);
-      cardInfo.cardId = data.nextCardId;
-      data.cards.unshift(cardInfo);
-      data.nextCardId++;
-    });
-
     // EVENT LISTENER: to listen for when a card object is clicked and checks if user wants to quick add to collection
 
     $cardContainer.addEventListener('click', (event) => {
       $cardDetailsAddButton.className = 'card-details-button';
       const eventTarget = event.target as HTMLElement;
       if (eventTarget.tagName === 'BUTTON') {
-        $addButton.addEventListener('click', () => {
-          alert('Card Added Successfully', 1000);
-          cardInfo.cardId = data.nextCardId;
-          data.cards.unshift(cardInfo);
-          data.nextCardId++;
-        });
+        alert('Card Added Successfully', 1000);
+        cardInfo.cardId = data.nextCardId;
+        data.cards.unshift(cardInfo);
+        data.nextCardId++;
       } else {
         data.selectedCardObject = cardInfo;
         storeScrollPosition();
