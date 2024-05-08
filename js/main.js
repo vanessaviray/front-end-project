@@ -18,6 +18,20 @@ const $dialog = document.querySelector('dialog');
 const $xIcon = document.querySelector('.fa-x');
 const $noCardsMessages = document.querySelector('.no-cards-message');
 const $dollars = document.querySelector('.dollars');
+const $cardDetails = document.querySelector('#card-details');
+const $pokemonNameCardDetails = document.querySelector(
+  '.pokemon-name-card-details',
+);
+const $setNameCardDetails = document.querySelector('.set-name-card-details');
+const $numberCardDetails = document.querySelector('.number-card-details');
+const $rarityCardDetails = document.querySelector('.rarity-card-details');
+const $illustratorCardDetails = document.querySelector(
+  '.illustrator-card-details',
+);
+const $dollarCardDetails = document.querySelector('.dollar-card-details');
+const $largeImage = document.querySelector('.large-image');
+const $xButtonCardDetails = document.querySelector('.x-button-card-details');
+const $cardDetailsAddButton = document.querySelector('.card-details-button');
 const domQueries = {
   $form,
   $welcomePage,
@@ -34,6 +48,16 @@ const domQueries = {
   $xIcon,
   $noCardsMessages,
   $dollars,
+  $cardDetails,
+  $pokemonNameCardDetails,
+  $setNameCardDetails,
+  $numberCardDetails,
+  $rarityCardDetails,
+  $illustratorCardDetails,
+  $dollarCardDetails,
+  $largeImage,
+  $xButtonCardDetails,
+  $cardDetailsAddButton,
 };
 for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
@@ -63,14 +87,22 @@ function viewSwap(view) {
     $welcomePage.className = 'row container welcome-page show';
     $searchResults.className = 'hidden';
     $myCollection.className = 'hidden';
+    $cardDetails.className = 'hidden';
   } else if (view === 'search-results') {
     $welcomePage.className = 'hidden';
     $searchResults.className = 'show';
     $myCollection.className = 'hidden';
+    $cardDetails.className = 'hidden';
   } else if (view === 'my-collection') {
     $welcomePage.className = 'hidden';
     $searchResults.className = 'hidden';
     $myCollection.className = 'show';
+    $cardDetails.className = 'hidden';
+  } else if (view === 'card-details') {
+    $welcomePage.className = 'hidden';
+    $searchResults.className = 'hidden';
+    $myCollection.className = 'hidden';
+    $cardDetails.className = 'show';
   }
 }
 // FUNCTION: to fetch information from api
@@ -99,10 +131,13 @@ function renderSearchedCards(cardObjects) {
   const cardObjectsData = cardObjects.data;
   for (let i = 0; i < cardObjectsData.length; i++) {
     const cardInfo = {
+      largeImage: cardObjects.data[i].images.large,
       smallImage: cardObjects.data[i].images.small,
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
       cardNumber: cardObjects.data[i].number,
+      rarity: cardObjects.data[i].rarity,
+      illustrator: cardObjects.data[i].artist,
       cardId: 0,
     };
     // access the price type data by order of rarity (starting with the most common)
@@ -204,6 +239,13 @@ function renderSearchedCards(cardObjects) {
       cardInfo.cardId = data.nextCardId;
       data.cards.unshift(cardInfo);
       data.nextCardId++;
+    });
+    // EVENT LISTENER: to listen for when a card object is clicked
+    $cardContainer.addEventListener('click', () => {
+      storeScrollPosition();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setValuesOfCard(cardInfo);
+      viewSwap('card-details');
     });
   }
   if (cardInfoArray.length === 0) {
@@ -353,4 +395,35 @@ function getMarketValue() {
       $dollars.textContent = `$${totalMarketValue.toFixed(2)}`;
     }
   }
+}
+// FUNCTION: to set the values of the card selected
+function setValuesOfCard(cardInfo) {
+  $largeImage.setAttribute('src', cardInfo.largeImage);
+  $pokemonNameCardDetails.textContent = cardInfo.cardName;
+  $setNameCardDetails.textContent = cardInfo.setName;
+  $numberCardDetails.textContent = cardInfo.cardNumber;
+  if (cardInfo.rarity === undefined) {
+    $rarityCardDetails.textContent = 'Not Available';
+  } else {
+    $rarityCardDetails.textContent = cardInfo.rarity;
+  }
+  $illustratorCardDetails.textContent = cardInfo.illustrator;
+  if (typeof cardInfo.marketPrice === 'string') {
+    $dollarCardDetails.textContent = cardInfo.marketPrice;
+  }
+}
+// EVENT LISTENER: to exit out of card details view
+$xButtonCardDetails.addEventListener('click', () => {
+  viewSwap('search-results');
+  restoreScrollPosition();
+});
+// FUNCTIONS: to store and restore scroll positions
+let scrollPosition = 0;
+function storeScrollPosition() {
+  scrollPosition = window.scrollY;
+}
+function restoreScrollPosition() {
+  setTimeout(() => {
+    window.scrollTo(0, scrollPosition);
+  }, 0);
 }
