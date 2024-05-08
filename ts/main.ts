@@ -1,4 +1,4 @@
-// DOM QUERIES:
+// DOM QUERIES, INTERFACES, AND VARIABLES:
 
 const $form = document.querySelector('form') as HTMLFormElement;
 const $welcomePage = document.querySelector('.welcome-page') as HTMLDivElement;
@@ -92,10 +92,8 @@ for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
 }
 
-// INTERFACES:
-
 interface CardInfo {
-  largeImage: string;
+  largeImage?: string;
   smallImage: string;
   cardName: string;
   setName: string;
@@ -106,6 +104,8 @@ interface CardInfo {
   marketPrice?: string;
   cardId: number;
 }
+
+let previousView = '';
 
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 
@@ -188,7 +188,6 @@ function renderSearchedCards(cardObjects: any): any {
 
   for (let i = 0; i < cardObjectsData.length; i++) {
     const cardInfo: CardInfo = {
-      largeImage: cardObjects.data[i].images.large,
       smallImage: cardObjects.data[i].images.small,
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
@@ -197,6 +196,12 @@ function renderSearchedCards(cardObjects: any): any {
       illustrator: cardObjects.data[i].artist,
       cardId: 0,
     };
+
+    if (cardObjects.data[i].images.large !== undefined) {
+      cardInfo.largeImage = cardObjects.data[i].images.large;
+    } else {
+      cardInfo.largeImage = cardObjects.data[i].images.small;
+    }
 
     // access the price type data by order of rarity (starting with the most common)
 
@@ -316,6 +321,7 @@ function renderSearchedCards(cardObjects: any): any {
     // EVENT LISTENER: to listen for when a card object is clicked and checks if user wants to quick add to collection
 
     $cardContainer.addEventListener('click', (event) => {
+      $cardDetailsAddButton.className = 'card-details-button';
       const eventTarget = event.target as HTMLElement;
       if (eventTarget.tagName === 'BUTTON') {
         $addButton.addEventListener('click', () => {
@@ -330,6 +336,7 @@ function renderSearchedCards(cardObjects: any): any {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setValuesOfCard(cardInfo);
         viewSwap('card-details');
+        previousView = 'search-results';
       }
     });
   }
@@ -469,37 +476,58 @@ function renderCollectionCards(): void {
     $removeButton.textContent = '-';
     $priceAndButton.appendChild($removeButton);
 
-    // EVENT LISTENERS for modal actions
-
-    $removeButton.addEventListener('click', () => {
-      $dialog.showModal();
+    $cardContainer.addEventListener('click', (event) => {
+      const clickedCardDataId = $cardContainer.getAttribute(
+        'data-card-id',
+      ) as string;
+      const clickedCardId = parseInt(clickedCardDataId);
+      const clickedCardIndex = data.cards.findIndex(
+        (card) => card.cardId === clickedCardId,
+      );
       const closestResult = $removeButton.closest('.card-container');
       data.selectedCard = closestResult;
-    });
 
-    $xIcon.addEventListener('click', () => {
-      $dialog.close();
-    });
-
-    $confirmRemoveButton.addEventListener('click', () => {
-      $dialog.close();
-      const dataCardId = data.selectedCard?.getAttribute('data-card-id');
-      for (let i = 0; i < data.cards.length; i++) {
-        if (data.cards[i].cardId.toString() === dataCardId) {
-          data.cards.splice(i, 1);
-          data.selectedCard?.remove();
-          getMarketValue();
-          noCardsInCollection();
-        }
+      const eventTarget = event.target as HTMLElement;
+      if (eventTarget.tagName === 'BUTTON') {
+        $dialog.showModal();
+        storeScrollPosition();
+      } else {
+        const clickedCardInfo = data.cards[clickedCardIndex];
+        data.selectedCardObject = data.cards[i];
+        storeScrollPosition();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setValuesOfCard(clickedCardInfo);
+        viewSwap('card-details');
+        $cardDetailsAddButton.className = 'hidden';
+        previousView = 'my-collection';
       }
-      alert('Card Removed Successfully', 1000);
-    });
-
-    $cancelButton.addEventListener('click', () => {
-      $dialog.close();
     });
   }
 }
+
+$xIcon.addEventListener('click', () => {
+  restoreScrollPosition();
+  $dialog.close();
+});
+
+$cancelButton.addEventListener('click', () => {
+  restoreScrollPosition();
+  $dialog.close();
+});
+
+$confirmRemoveButton.addEventListener('click', () => {
+  $dialog.close();
+  const dataCardId = data.selectedCard?.getAttribute('data-card-id');
+  for (let i = 0; i < data.cards.length; i++) {
+    if (data.cards[i].cardId.toString() === dataCardId) {
+      data.cards.splice(i, 1);
+      data.selectedCard?.remove();
+      getMarketValue();
+      noCardsInCollection();
+    }
+  }
+  alert('Card Removed Successfully', 1000);
+});
 
 // FUNCTION: to display message if there are no cards in the collection
 
@@ -529,7 +557,9 @@ function getMarketValue(): void {
 // FUNCTION: to set the values of the card selected
 
 function setValuesOfCard(cardInfo: CardInfo): void {
-  $largeImage.setAttribute('src', cardInfo.largeImage);
+  if (cardInfo.largeImage !== undefined) {
+    $largeImage.setAttribute('src', cardInfo.largeImage);
+  }
   $pokemonNameCardDetails.textContent = cardInfo.cardName;
   $setNameCardDetails.textContent = cardInfo.setName;
   $numberCardDetails.textContent = cardInfo.cardNumber;
@@ -547,7 +577,7 @@ function setValuesOfCard(cardInfo: CardInfo): void {
 // EVENT LISTENER: to exit out of card details view
 
 $xButtonCardDetails.addEventListener('click', () => {
-  viewSwap('search-results');
+  viewSwap(previousView);
   restoreScrollPosition();
 });
 

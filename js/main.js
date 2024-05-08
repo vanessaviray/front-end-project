@@ -1,5 +1,5 @@
 'use strict';
-// DOM QUERIES:
+// DOM QUERIES, INTERFACES, AND VARIABLES:
 const $form = document.querySelector('form');
 const $welcomePage = document.querySelector('.welcome-page');
 const $searchResults = document.querySelector('#search-results');
@@ -61,6 +61,7 @@ const domQueries = {
 for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
 }
+let previousView = '';
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
 $marketmonLogo.addEventListener('click', () => {
   viewSwap('welcome-page');
@@ -130,7 +131,6 @@ function renderSearchedCards(cardObjects) {
   const cardObjectsData = cardObjects.data;
   for (let i = 0; i < cardObjectsData.length; i++) {
     const cardInfo = {
-      largeImage: cardObjects.data[i].images.large,
       smallImage: cardObjects.data[i].images.small,
       cardName: cardObjects.data[i].name,
       setName: cardObjects.data[i].set.name,
@@ -139,6 +139,11 @@ function renderSearchedCards(cardObjects) {
       illustrator: cardObjects.data[i].artist,
       cardId: 0,
     };
+    if (cardObjects.data[i].images.large !== undefined) {
+      cardInfo.largeImage = cardObjects.data[i].images.large;
+    } else {
+      cardInfo.largeImage = cardObjects.data[i].images.small;
+    }
     // access the price type data by order of rarity (starting with the most common)
     if (
       cardObjects.data[i].tcgplayer !== undefined &&
@@ -241,6 +246,7 @@ function renderSearchedCards(cardObjects) {
     });
     // EVENT LISTENER: to listen for when a card object is clicked and checks if user wants to quick add to collection
     $cardContainer.addEventListener('click', (event) => {
+      $cardDetailsAddButton.className = 'card-details-button';
       const eventTarget = event.target;
       if (eventTarget.tagName === 'BUTTON') {
         $addButton.addEventListener('click', () => {
@@ -255,6 +261,7 @@ function renderSearchedCards(cardObjects) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setValuesOfCard(cardInfo);
         viewSwap('card-details');
+        previousView = 'search-results';
       }
     });
   }
@@ -367,33 +374,52 @@ function renderCollectionCards() {
     $removeButton.setAttribute('class', 'add-button-search-results');
     $removeButton.textContent = '-';
     $priceAndButton.appendChild($removeButton);
-    // EVENT LISTENERS for modal actions
-    $removeButton.addEventListener('click', () => {
-      $dialog.showModal();
+    $cardContainer.addEventListener('click', (event) => {
+      const clickedCardDataId = $cardContainer.getAttribute('data-card-id');
+      const clickedCardId = parseInt(clickedCardDataId);
+      const clickedCardIndex = data.cards.findIndex(
+        (card) => card.cardId === clickedCardId,
+      );
       const closestResult = $removeButton.closest('.card-container');
       data.selectedCard = closestResult;
-    });
-    $xIcon.addEventListener('click', () => {
-      $dialog.close();
-    });
-    $confirmRemoveButton.addEventListener('click', () => {
-      $dialog.close();
-      const dataCardId = data.selectedCard?.getAttribute('data-card-id');
-      for (let i = 0; i < data.cards.length; i++) {
-        if (data.cards[i].cardId.toString() === dataCardId) {
-          data.cards.splice(i, 1);
-          data.selectedCard?.remove();
-          getMarketValue();
-          noCardsInCollection();
-        }
+      const eventTarget = event.target;
+      if (eventTarget.tagName === 'BUTTON') {
+        $dialog.showModal();
+        storeScrollPosition();
+      } else {
+        const clickedCardInfo = data.cards[clickedCardIndex];
+        data.selectedCardObject = data.cards[i];
+        storeScrollPosition();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setValuesOfCard(clickedCardInfo);
+        viewSwap('card-details');
+        $cardDetailsAddButton.className = 'hidden';
+        previousView = 'my-collection';
       }
-      alert('Card Removed Successfully', 1000);
-    });
-    $cancelButton.addEventListener('click', () => {
-      $dialog.close();
     });
   }
 }
+$xIcon.addEventListener('click', () => {
+  restoreScrollPosition();
+  $dialog.close();
+});
+$cancelButton.addEventListener('click', () => {
+  restoreScrollPosition();
+  $dialog.close();
+});
+$confirmRemoveButton.addEventListener('click', () => {
+  $dialog.close();
+  const dataCardId = data.selectedCard?.getAttribute('data-card-id');
+  for (let i = 0; i < data.cards.length; i++) {
+    if (data.cards[i].cardId.toString() === dataCardId) {
+      data.cards.splice(i, 1);
+      data.selectedCard?.remove();
+      getMarketValue();
+      noCardsInCollection();
+    }
+  }
+  alert('Card Removed Successfully', 1000);
+});
 // FUNCTION: to display message if there are no cards in the collection
 function noCardsInCollection() {
   if (data.cards.length === 0) {
@@ -417,7 +443,9 @@ function getMarketValue() {
 }
 // FUNCTION: to set the values of the card selected
 function setValuesOfCard(cardInfo) {
-  $largeImage.setAttribute('src', cardInfo.largeImage);
+  if (cardInfo.largeImage !== undefined) {
+    $largeImage.setAttribute('src', cardInfo.largeImage);
+  }
   $pokemonNameCardDetails.textContent = cardInfo.cardName;
   $setNameCardDetails.textContent = cardInfo.setName;
   $numberCardDetails.textContent = cardInfo.cardNumber;
@@ -433,7 +461,7 @@ function setValuesOfCard(cardInfo) {
 }
 // EVENT LISTENER: to exit out of card details view
 $xButtonCardDetails.addEventListener('click', () => {
-  viewSwap('search-results');
+  viewSwap(previousView);
   restoreScrollPosition();
 });
 // FUNCTIONS: to store and restore scroll positions

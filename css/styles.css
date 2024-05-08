@@ -489,11 +489,11 @@ dialog > .subtext {
   }
 
   .welcome-page-contents {
-    width: 460px;
+    max-width: 50%;
   }
 
   .marketmon-welcome-image {
-    width: 410px;
+    width: 350px;
     margin-bottom: 10px;
   }
 
@@ -519,14 +519,14 @@ dialog > .subtext {
 
   .three-cards {
     position: relative;
-    top: 28px;
-    width: 325px;
+    top: 16px;
     margin-top: 40px;
     margin-bottom: 20px;
   }
 
   .three-cards-container {
     justify-content: start;
+    width: 50%;
   }
 
   .page-heading-row {
@@ -535,7 +535,7 @@ dialog > .subtext {
   }
 
   .card-container {
-    max-width: 23.25%;
+    max-width: 22.96%;
   }
 
   .card-container > img {
