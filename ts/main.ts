@@ -1,18 +1,3 @@
-// INTERFACES:
-
-interface CardInfo {
-  largeImage: string;
-  smallImage: string;
-  cardName: string;
-  setName: string;
-  cardNumber: string;
-  rarity: string;
-  illustrator: string;
-  priceType?: string;
-  marketPrice?: string;
-  cardId: number;
-}
-
 // DOM QUERIES:
 
 const $form = document.querySelector('form') as HTMLFormElement;
@@ -105,6 +90,21 @@ const domQueries: Record<string, any> = {
 
 for (const key in domQueries) {
   if (!domQueries[key]) throw new Error(`The ${key} dom query failed`);
+}
+
+// INTERFACES:
+
+interface CardInfo {
+  largeImage: string;
+  smallImage: string;
+  cardName: string;
+  setName: string;
+  cardNumber: string;
+  rarity: string;
+  illustrator: string;
+  priceType?: string;
+  marketPrice?: string;
+  cardId: number;
 }
 
 // EVENT LISTENER: to listen for when the MarketMon logo is clicked
@@ -313,13 +313,24 @@ function renderSearchedCards(cardObjects: any): any {
       data.nextCardId++;
     });
 
-    // EVENT LISTENER: to listen for when a card object is clicked
+    // EVENT LISTENER: to listen for when a card object is clicked and checks if user wants to quick add to collection
 
-    $cardContainer.addEventListener('click', () => {
-      storeScrollPosition();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setValuesOfCard(cardInfo);
-      viewSwap('card-details');
+    $cardContainer.addEventListener('click', (event) => {
+      const eventTarget = event.target as HTMLElement;
+      if (eventTarget.tagName === 'BUTTON') {
+        $addButton.addEventListener('click', () => {
+          alert('Card Added Successfully', 1000);
+          cardInfo.cardId = data.nextCardId;
+          data.cards.unshift(cardInfo);
+          data.nextCardId++;
+        });
+      } else {
+        data.selectedCardObject = cardInfo;
+        storeScrollPosition();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setValuesOfCard(cardInfo);
+        viewSwap('card-details');
+      }
     });
   }
 
@@ -327,6 +338,17 @@ function renderSearchedCards(cardObjects: any): any {
     displayNoMatches();
   }
 }
+
+// EVENT LISTENER: to add a card from the 'card-details' view
+
+$cardDetailsAddButton.addEventListener('click', () => {
+  alert('Card Added Successfully', 1000);
+  if (data.selectedCardObject !== null) {
+    data.selectedCardObject.cardId = data.nextCardId;
+    data.cards.unshift(data.selectedCardObject);
+    data.nextCardId++;
+  }
+});
 
 // FUNCTION AND DOM TREE: to show when there are no results
 

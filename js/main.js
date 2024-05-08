@@ -1,5 +1,4 @@
 'use strict';
-// INTERFACES:
 // DOM QUERIES:
 const $form = document.querySelector('form');
 const $welcomePage = document.querySelector('.welcome-page');
@@ -240,18 +239,38 @@ function renderSearchedCards(cardObjects) {
       data.cards.unshift(cardInfo);
       data.nextCardId++;
     });
-    // EVENT LISTENER: to listen for when a card object is clicked
-    $cardContainer.addEventListener('click', () => {
-      storeScrollPosition();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setValuesOfCard(cardInfo);
-      viewSwap('card-details');
+    // EVENT LISTENER: to listen for when a card object is clicked and checks if user wants to quick add to collection
+    $cardContainer.addEventListener('click', (event) => {
+      const eventTarget = event.target;
+      if (eventTarget.tagName === 'BUTTON') {
+        $addButton.addEventListener('click', () => {
+          alert('Card Added Successfully', 1000);
+          cardInfo.cardId = data.nextCardId;
+          data.cards.unshift(cardInfo);
+          data.nextCardId++;
+        });
+      } else {
+        data.selectedCardObject = cardInfo;
+        storeScrollPosition();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setValuesOfCard(cardInfo);
+        viewSwap('card-details');
+      }
     });
   }
   if (cardInfoArray.length === 0) {
     displayNoMatches();
   }
 }
+// EVENT LISTENER: to add a card from the 'card-details' view
+$cardDetailsAddButton.addEventListener('click', () => {
+  alert('Card Added Successfully', 1000);
+  if (data.selectedCardObject !== null) {
+    data.selectedCardObject.cardId = data.nextCardId;
+    data.cards.unshift(data.selectedCardObject);
+    data.nextCardId++;
+  }
+});
 // FUNCTION AND DOM TREE: to show when there are no results
 function displayNoMatches() {
   const $pokeballNoMatches = document.createElement('div');
