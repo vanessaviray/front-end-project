@@ -4,6 +4,7 @@ interface Data {
   view: string;
   cards: CardInfo[];
   selectedCard: null | Element;
+  selectedCardObject: null | CardInfo;
   nextCardId: number;
 }
 
@@ -11,6 +12,7 @@ let data: Data = {
   view: 'welcome-page',
   cards: [],
   selectedCard: null,
+  selectedCardObject: null,
   nextCardId: 1,
 };
 

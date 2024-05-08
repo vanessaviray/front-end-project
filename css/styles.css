@@ -388,6 +388,65 @@ dialog > .subtext {
   margin-bottom: 14px;
 }
 
+/* card details */
+
+.large-image-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.large-image-container > img {
+  width: 100%;
+}
+
+.x-button-card-details {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.category {
+  color: #999;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.category-value {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.dollar-card-details {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.card-details-button {
+  width: 100%;
+}
+
+.card-details-button > button {
+  width: 100%;
+  height: 42px;
+  background-color: #ffc700;
+  color: white;
+  border-style: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.card-details-button > button:hover {
+  background-color: rgb(243, 191, 0);
+}
+
 /* hover states */
 
 .marketmon-logo:hover,
@@ -395,7 +454,8 @@ dialog > .subtext {
 .my-collection-button:hover,
 .fa-x:hover,
 .cancel-button:hover,
-.confirm-remove-button:hover {
+.confirm-remove-button:hover,
+.card-details-button > button:hover {
   cursor: pointer;
 }
 
@@ -429,11 +489,11 @@ dialog > .subtext {
   }
 
   .welcome-page-contents {
-    width: 460px;
+    max-width: 50%;
   }
 
   .marketmon-welcome-image {
-    width: 410px;
+    width: 350px;
     margin-bottom: 10px;
   }
 
@@ -459,14 +519,14 @@ dialog > .subtext {
 
   .three-cards {
     position: relative;
-    top: 28px;
-    width: 325px;
+    top: 16px;
     margin-top: 40px;
     margin-bottom: 20px;
   }
 
   .three-cards-container {
     justify-content: start;
+    width: 50%;
   }
 
   .page-heading-row {
@@ -475,7 +535,7 @@ dialog > .subtext {
   }
 
   .card-container {
-    max-width: 23.25%;
+    max-width: 22.96%;
   }
 
   .card-container > img {
@@ -529,5 +589,45 @@ dialog > .subtext {
 
   .card-container-row-collection {
     margin-top: 10px;
+  }
+
+  .image-and-details {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .large-image-container {
+    width: 50%;
+    padding-right: 75px;
+  }
+
+  .card-detail-text-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-bottom: 10px;
+  }
+
+  .card-detail-text-info > h1 {
+    margin-top: 0;
+  }
+
+  .card-details-button > button {
+    margin-bottom: 0;
+    width: 250px;
+  }
+
+  .category {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .category-value {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 14px;
   }
 }
